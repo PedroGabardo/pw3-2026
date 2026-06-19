@@ -19,15 +19,15 @@ class KeepController extends Controller
     public function create(Request $request)
     {
         if ($request->isMethod('post')) {
-            //dd($request);
             $dados = $request->validate([
                 'nota' => 'required|min:5|max:255',
                 'cor' => 'required',
                 'imagem' => 'nullable|image'
             ]);
 
-            if($request->hasFile('imagem')) {
-                $dados['imagem'] = $request->file('imagem')->store('imagens','public');
+            // Verifica se tem arquivo e grava
+            if ($request->hasFile('imagem')) {
+                $dados['imagem'] = $request->file('imagem')->store('imagens', 'public');
             }
 
             Nota::create($dados);
@@ -44,14 +44,16 @@ class KeepController extends Controller
             $dados = $request->validate([
                 'nota' => 'required|min:5|max:255',
                 'cor' => 'required',
-                'imagem' => 'nullable|image'
+                'imagem' => 'nullable|image|max:2048'
             ]);
 
-            if($request->hasFile('imagem')) {
+            // Verifica se tem arquivo e grava
+            if ($request->hasFile('imagem')) {
+                // Apaga a imagem antiga
                 if ($nota->imagem) {
                     \Storage::disk('public')->delete($nota->imagem);
                 }
-                $dados['imagem'] = $request->file('imagem')->store('imagens','public');
+                $dados['imagem'] = $request->file('imagem')->store('imagens', 'public');
             }
 
             $nota->update($dados);

@@ -15,7 +15,7 @@
             {{ $nota['nota'] }}
             <br><br>
             @if ($nota['imagem'])
-                <img src="{{ asset('storage/'.$nota['imagem']) }}" width="190px">
+                <img src="{{ asset('storage/'.$nota['imagem']) }}" width="200">
                 <br><br>
             @endif
             Criada: {{ \Carbon\Carbon::parse($nota['created_at'])->diffForHumans() }}
